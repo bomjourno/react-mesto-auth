@@ -1,0 +1,12 @@
+.element__picture {
+    width: 100%;
+    min-height: 282px;
+    max-height: 282px;
+    object-fit: cover;
+    object-position: center;
+    border-radius: 10px 10px 0 0;
+}
+
+.element__picture:hover {
+    cursor: pointer;
+}

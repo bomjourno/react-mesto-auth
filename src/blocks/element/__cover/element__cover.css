@@ -1,0 +1,6 @@
+.element__cover {
+    display: flex;
+    justify-content: space-between;
+    max-width: 242px;
+    margin: 22px auto 20px;
+}
