@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
 class Api extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.baseUrl = props.baseUrl;
     this.headers = props.headers;
   }
@@ -13,7 +13,7 @@ class Api extends React.Component {
   }
 
   getInitialData() {
-    return Promise.all([this.getUserData(), this.getInitialCards()])
+    return Promise.all([this.getUserData(), this.getInitialCards()]);
   }
 
   getUserData() {
@@ -30,7 +30,7 @@ class Api extends React.Component {
 
   setUserData(data) {
     return fetch(`${this.baseUrl}/users/me`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this.headers,
       body: JSON.stringify({
         name: data.name,
@@ -41,7 +41,7 @@ class Api extends React.Component {
 
   addNewCard(data) {
     return fetch(`${this.baseUrl}/cards`, {
-      method: "POST",
+      method: 'POST',
       headers: this.headers,
       body: JSON.stringify({
         name: data.name,
@@ -52,7 +52,7 @@ class Api extends React.Component {
 
   deleteCard(id) {
     return fetch(`${this.baseUrl}/cards/${id}`, {
-      method: "DELETE",
+      method: 'DELETE',
       headers: this.headers,
     }).then((res) => this._handleResponse(res));
   }
@@ -60,14 +60,13 @@ class Api extends React.Component {
   changeLikeCardStatus(cardId, cardIsLiked) {
     return fetch(`${this.baseUrl}/cards/${cardId}/likes`, {
       method: cardIsLiked ? 'PUT' : 'DELETE',
-      headers: this.headers
-    })
-    .then(res => this._handleResponse(res));
+      headers: this.headers,
+    }).then((res) => this._handleResponse(res));
   }
 
   changeAvatar(data) {
     return fetch(`${this.baseUrl}/users/me/avatar`, {
-      method: "PATCH",
+      method: 'PATCH',
       headers: this.headers,
       body: JSON.stringify({
         avatar: `${data.link}`,
@@ -77,10 +76,10 @@ class Api extends React.Component {
 }
 
 const api = new Api({
-  baseUrl: "https://mesto.nomoreparties.co/v1/cohort-39",
+  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-39',
   headers: {
-    authorization: "db8791fd-f46d-4615-b308-f5256d937c0b",
-    "Content-Type": "application/json",
+    authorization: 'db8791fd-f46d-4615-b308-f5256d937c0b',
+    'Content-Type': 'application/json',
   },
 });
 

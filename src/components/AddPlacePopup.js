@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import PopupWithForm from "./PopupWithForm";
+import React, { useState } from 'react';
+import PopupWithForm from './PopupWithForm';
 
-const AddPlacePopup = ({ isLoading, onClose, isOpen, onAddPlace }) => {
-  const [link, setLink] = useState("");
-  const [name, setName] = useState("");
+function AddPlacePopup({ isLoading, onClose, isOpen, onAddPlace }) {
+  const [link, setLink] = useState('');
+  const [name, setName] = useState('');
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -28,7 +28,7 @@ const AddPlacePopup = ({ isLoading, onClose, isOpen, onAddPlace }) => {
       onClose={onClose}
       isOpen={isOpen}
       name="add-place"
-      title={"Новое место"}
+      title="Новое место"
       isLoading={isLoading}
     >
       <input
@@ -57,6 +57,6 @@ const AddPlacePopup = ({ isLoading, onClose, isOpen, onAddPlace }) => {
       <span className="popup__text-error link-input-error" />
     </PopupWithForm>
   );
-};
+}
 
 export default AddPlacePopup;

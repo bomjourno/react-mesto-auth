@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
-import { CurrentUserContext } from "../contexts/CurrentUserContext";
-import PopupWithForm from "./PopupWithForm";
+import React, { useEffect, useState } from 'react';
+import { CurrentUserContext } from '../contexts/CurrentUserContext';
+import PopupWithForm from './PopupWithForm';
 
-const EditProfilePopup = ({ isLoading, onClose, isOpen, onUpdateUser }) => {
+function EditProfilePopup({ isLoading, onClose, isOpen, onUpdateUser }) {
   const currentUser = React.useContext(CurrentUserContext);
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
 
   useEffect(() => {
     setName(currentUser.name);
@@ -35,7 +35,7 @@ const EditProfilePopup = ({ isLoading, onClose, isOpen, onUpdateUser }) => {
       onClose={onClose}
       isOpen={isOpen}
       name="profile"
-      title={"Редактировать профиль"}
+      title="Редактировать профиль"
       isLoading={isLoading}
     >
       <input
@@ -66,6 +66,6 @@ const EditProfilePopup = ({ isLoading, onClose, isOpen, onUpdateUser }) => {
       <span className="popup__text-error position-input-error" />
     </PopupWithForm>
   );
-};
+}
 
 export default EditProfilePopup;

@@ -1,6 +1,11 @@
 @import url(../vendor/normalize.css);
 @import url(../vendor/fonts/inter.css);
 @import url(../blocks/page/page.css);
+@import url(../blocks/authorization/authorization.css);
+@import url(../blocks/authorization/__caption/authorization__caption.css);
+@import url(../blocks/authorization/__input/authorization__input.css);
+@import url(../blocks/authorization/__submit/authorization__submit.css);
+@import url(../blocks/authorization/__title/authorization__title.css);
 @import url(../blocks/header/header.css);
 @import url(../blocks/header/__logo/header__logo.css);
 @import url(../blocks/profile/profile.css);

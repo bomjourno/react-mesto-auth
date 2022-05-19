@@ -1,7 +1,7 @@
-import React from "react";
-import PopupWithForm from "./PopupWithForm";
+import React from 'react';
+import PopupWithForm from './PopupWithForm';
 
-const ConfirmPopup = ({ isLoading, isOpen, onClose, onConfirm }) => {
+function ConfirmPopup({ isLoading, isOpen, onClose, onConfirm }) {
   function handleSubmit(e) {
     e.preventDefault();
     onConfirm();
@@ -14,10 +14,10 @@ const ConfirmPopup = ({ isLoading, isOpen, onClose, onConfirm }) => {
       onClose={onClose}
       isOpen={isOpen}
       name="profile"
-      title={"Редактировать профиль"}
+      title="Редактировать профиль"
       isLoading={isLoading}
-    ></PopupWithForm>
+    />
   );
-};
+}
 
 export default ConfirmPopup;

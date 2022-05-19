@@ -1,0 +1,10 @@
+.authorization__submit {
+  height: 50px;
+  width: 100%;
+  padding: 0;
+  background: #ffffff;
+  border: 0;
+  border-radius: 2px;
+  font-size: 18px;
+  line-height: 22px;
+}

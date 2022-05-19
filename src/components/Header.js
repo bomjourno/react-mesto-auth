@@ -1,12 +1,12 @@
-import React from "react";
-import logo from "../images/logo.svg";
+import React from 'react';
+import logo from '../images/logo.svg';
 
-const Header = () => {
+function Header() {
   return (
     <header className="header">
       <img className="header__logo" src={logo} alt="Логотип Mesto Russia" />
     </header>
   );
-};
+}
 
 export default Header;
