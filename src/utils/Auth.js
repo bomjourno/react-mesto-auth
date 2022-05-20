@@ -35,3 +35,13 @@ export function authorize(password, email) {
     }),
   }).then(checkResponse);
 }
+
+export function getContent(userToken) {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization' : `Bearer ${userToken}`
+    }
+  }).then(checkResponse);
+}

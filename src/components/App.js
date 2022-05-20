@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Route, Routes, Navigate } from 'react-router-dom';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Footer from './Footer';
 import Header from './Header';
 import ImagePopup from './ImagePopup';
@@ -13,6 +13,8 @@ import ConfirmPopup from './ConfirmPopup';
 import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
+import * as auth from '../utils/Auth';
+import InfoTooltip from './InfoTooltip';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
@@ -24,10 +26,16 @@ function App() {
   const [selectedCard, setSelectedCard] = useState({ name: '', link: '' });
   const [cards, setCards] = useState([]);
   const [isAuthorized, setIsAuthorized] = useState(false);
+  const [isNoticeAlertPopupOpen, setIsNoticeAlertPopupOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState({
     name: '',
     about: '',
     avatar: '',
+  });
+  const navigate = useNavigate();
+  const [noticeOfRegistration, setNoticeOfRegistration] = useState({
+    message: '',
+    link: '',
   });
 
   useEffect(() => {
@@ -73,6 +81,10 @@ function App() {
     setIsAddPlacePopupOpen(false);
     setIsConfirmPopupOpen(false);
     setSelectedCard({ name: '', link: '' });
+    setNoticeOfRegistration({
+      message: '',
+      link: '',
+    });
   }
 
   function handleCardLike(card) {
@@ -145,13 +157,38 @@ function App() {
     setIsAuthorized(true);
   }
 
+  function signOut(e) {
+    if (e.target.textContent === 'Выйти') {
+      localStorage.removeItem('jwt');
+    }
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt');
+      auth.getContent(jwt).then(() => {
+        setIsAuthorized(true);
+        navigate('/');
+      });
+    }
+  }, []);
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header isAuthorized={isAuthorized} />
+        <Header signOut={signOut} />
 
         <Routes>
-          <Route path="/sign-up" element={<Register />} />
+          <Route
+            path="/sign-up"
+            element={
+              <Register
+                isNoticeAlertPopupOpen={isNoticeAlertPopupOpen}
+                setIsNoticeAlertPopupOpen={setIsNoticeAlertPopupOpen}
+                setNoticeOfRegistration={setNoticeOfRegistration}
+              />
+            }
+          />
           <Route path="/sign-in" element={<Login handleLogin={handleLogin} />} />
           <Route exact path="/" element={<ProtectedRoute isAuthorized={isAuthorized} />}>
             <Route
@@ -198,6 +235,12 @@ function App() {
         />
 
         <ImagePopup onClose={closeAllPopups} card={selectedCard} />
+
+        <InfoTooltip
+          onClose={closeAllPopups}
+          noticeOfRegistration={noticeOfRegistration}
+          isNoticeAlertPopupOpen={isNoticeAlertPopupOpen}
+        />
       </CurrentUserContext.Provider>
     </div>
   );
