@@ -7,4 +7,10 @@
   border-radius: 2px;
   font-size: 18px;
   line-height: 22px;
+  transition: .4s;
+  cursor: pointer;
+}
+
+.authorization__submit:hover {
+  opacity: 0.85;
 }

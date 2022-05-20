@@ -6,5 +6,9 @@
   line-height: 17px;
   text-decoration: none;
   color: #fff;
+  transition: .3s;
 }
 
+.authorization__caption:hover {
+  opacity: .6;
+}
