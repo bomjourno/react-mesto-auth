@@ -7,10 +7,17 @@
   border-radius: 2px;
   font-size: 18px;
   line-height: 22px;
-  transition: .4s;
+  transition: 0.4s;
   cursor: pointer;
 }
 
 .authorization__submit:hover {
   opacity: 0.85;
+}
+
+@media screen and (max-width: 430px) {
+  .authorization__submit {
+    font-size: 16px;
+    line-height: 19px;
+  }
 }

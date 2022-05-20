@@ -5,3 +5,11 @@
   font-size: 24px;
   line-height: 29px;
 }
+
+@media screen and (max-width: 430px) {
+  .authorization__title {
+    font-size: 20px;
+    line-height: 24px;
+    margin: 0 0 40px 0;
+  }
+}

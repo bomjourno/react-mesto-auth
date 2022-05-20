@@ -5,9 +5,16 @@
   font-weight: 400;
   font-size: 18px;
   line-height: 22px;
-  transition: .3s;
+  transition: 0.3s;
 }
 
 .header__authorization:hover {
-  opacity: .6;
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 430px) {
+  .header__authorization {
+    font-size: 14px;
+    line-height: 17px;
+  }
 }

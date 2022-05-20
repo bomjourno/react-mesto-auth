@@ -7,3 +7,10 @@
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
 }
+
+@media screen and (max-width: 580px) {
+  .popup__info-tooltip {
+    width: 280px;
+    max-height: 308px;
+  }
+}

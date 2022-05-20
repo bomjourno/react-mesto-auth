@@ -8,3 +8,9 @@
   font-style: normal;
   font-weight: 400;
 }
+
+@media screen and (max-width: 430px) {
+  .authorization {
+    max-width: 260px;
+  }
+}

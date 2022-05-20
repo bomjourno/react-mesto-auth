@@ -236,11 +236,7 @@ function App() {
 
         <ImagePopup onClose={closeAllPopups} card={selectedCard} />
 
-        <InfoTooltip
-          onClose={closeAllPopups}
-          noticeOfRegistration={noticeOfRegistration}
-          isNoticeAlertPopupOpen={isNoticeAlertPopupOpen}
-        />
+        <InfoTooltip onClose={closeAllPopups} noticeOfRegistration={noticeOfRegistration} />
       </CurrentUserContext.Provider>
     </div>
   );
