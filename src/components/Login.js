@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import * as auth from '../utils/Auth';
 
 function Login({ handleLogin }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
 
   function handleChangePassword(e) {
     setPassword(e.target.value);
@@ -17,17 +14,9 @@ function Login({ handleLogin }) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    auth
-      .authorize(password, email)
-      .then((data) => {
-        if (data.token) {
-          setEmail('');
-          setPassword('');
-          handleLogin(data);
-          navigate('/');
-        }
-      })
-      .catch((err) => console.log(err));
+    setEmail('');
+    setPassword('');
+    handleLogin(password, email);
   }
 
   return (

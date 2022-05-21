@@ -14,6 +14,8 @@ import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
 import * as auth from '../utils/Auth';
+import positiveResponseImg from '../images/OK.svg';
+import negativeResponseImg from '../images/notOK.svg';
 import InfoTooltip from './InfoTooltip';
 
 function App() {
@@ -22,37 +24,39 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isConfirmPopupOpen, setIsConfirmPopupOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [cardForRemove, setCardForRemove] = useState('');
+  const [cardForRemove, setCardForRemove] = useState(null);
   const [selectedCard, setSelectedCard] = useState({ name: '', link: '' });
   const [cards, setCards] = useState([]);
   const [isAuthorized, setIsAuthorized] = useState(false);
-  const [isNoticeAlertPopupOpen, setIsNoticeAlertPopupOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState({
     name: '',
     about: '',
     avatar: '',
   });
-  const navigate = useNavigate();
   const [noticeOfRegistration, setNoticeOfRegistration] = useState({
     message: '',
     link: '',
   });
+  const navigate = useNavigate();
+  const [emailForHeader, setEmailForHeader] = useState(null);
 
   useEffect(() => {
-    api
-      .getInitialData()
-      .then((data) => {
-        const [userData, cardsData] = data;
-        setCurrentUser({
-          name: userData.name,
-          about: userData.about,
-          avatar: userData.avatar,
-          _id: userData._id,
-        });
-        setCards(cardsData);
-      })
-      .catch((err) => console.log(err));
-  }, []);
+    if (isAuthorized) {
+      api
+        .getInitialData()
+        .then((data) => {
+          const [userData, cardsData] = data;
+          setCurrentUser({
+            name: userData.name,
+            about: userData.about,
+            avatar: userData.avatar,
+            _id: userData._id,
+          });
+          setCards(cardsData);
+        })
+        .catch((err) => console.log(err));
+    }
+  }, [isAuthorized]);
 
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(!isEditAvatarPopupOpen);
@@ -146,15 +150,29 @@ function App() {
       .deleteCard(cardForRemove._id)
       .then(() => {
         setCards(cards.filter((c) => c !== cardForRemove));
+        closeAllPopups();
       })
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
-    closeAllPopups();
   }
 
-  function handleLogin(data) {
-    localStorage.setItem('jwt', data.token);
-    setIsAuthorized(true);
+  function handleLogin(password, email) {
+    auth
+      .authorize(password, email)
+      .then((data) => {
+        if (data.token) {
+          localStorage.setItem('jwt', data.token);
+          setIsAuthorized(true);
+          navigate('/');
+        }
+        setEmailForHeader(email);
+      })
+      .catch((err) =>
+        setNoticeOfRegistration({
+          message: `Ошибка! ${err.message}`,
+          link: negativeResponseImg,
+        })
+      );
   }
 
   function signOut(e) {
@@ -166,29 +184,40 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('jwt')) {
       const jwt = localStorage.getItem('jwt');
-      auth.getContent(jwt).then(() => {
-        setIsAuthorized(true);
-        navigate('/');
+      auth.getContent(jwt).then((res) => {
+        if (res) {
+          setEmailForHeader(res.data.email);
+          setIsAuthorized(true);
+          navigate('/');
+        }
       });
     }
   }, []);
 
+  function handleRegistration(password, email) {
+    auth
+      .register(password, email)
+      .then(() => navigate('/sign-in'))
+      .then(() => {
+        setNoticeOfRegistration({
+          message: 'Вы успешно зарегистрировались!',
+          link: positiveResponseImg,
+        });
+      })
+      .catch((err) => {
+        setNoticeOfRegistration({
+          message: `Ошибка! ${err.message}`,
+          link: negativeResponseImg,
+        });
+      });
+  }
+
   return (
     <div className="page">
       <CurrentUserContext.Provider value={currentUser}>
-        <Header signOut={signOut} />
-
+        <Header signOut={signOut} userEmail={emailForHeader} />
         <Routes>
-          <Route
-            path="/sign-up"
-            element={
-              <Register
-                isNoticeAlertPopupOpen={isNoticeAlertPopupOpen}
-                setIsNoticeAlertPopupOpen={setIsNoticeAlertPopupOpen}
-                setNoticeOfRegistration={setNoticeOfRegistration}
-              />
-            }
-          />
+          <Route path="/sign-up" element={<Register dataForRegister={handleRegistration} />} />
           <Route path="/sign-in" element={<Login handleLogin={handleLogin} />} />
           <Route exact path="/" element={<ProtectedRoute isAuthorized={isAuthorized} />}>
             <Route
@@ -209,6 +238,7 @@ function App() {
           </Route>
         </Routes>
         {isAuthorized && <Footer />}
+
         <EditProfilePopup
           isLoading={isLoading}
           onUpdateUser={handleUpdateUser}
@@ -235,7 +265,6 @@ function App() {
         />
 
         <ImagePopup onClose={closeAllPopups} card={selectedCard} />
-
         <InfoTooltip onClose={closeAllPopups} noticeOfRegistration={noticeOfRegistration} />
       </CurrentUserContext.Provider>
     </div>

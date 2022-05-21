@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import logo from '../images/logo.svg';
 
-function Header({ signOut }) {
+function Header({ signOut, userEmail }) {
   const [buttonsData, setButtonsData] = useState({
     name: '',
     link: '',
@@ -35,6 +35,7 @@ function Header({ signOut }) {
   return (
     <header className="header">
       <img className="header__logo" src={logo} alt="Логотип Mesto Russia" />
+      {location.pathname === '/' && <span className="header__email">{userEmail}</span>}
       <Link onClick={signOut} className="header__authorization" to={buttonsData.link}>
         {buttonsData.name}
       </Link>

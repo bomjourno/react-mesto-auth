@@ -1,13 +1,9 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import * as auth from '../utils/Auth';
-import positiveResponseImg from '../images/OK.svg';
-import negativeResponseImg from '../images/notOK.svg';
+import { Link } from 'react-router-dom';
 
-function Register({ isNoticeAlertPopupOpen, setIsNoticeAlertPopupOpen, setNoticeOfRegistration }) {
+function Register({ dataForRegister }) {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
-  const navigate = useNavigate();
 
   function handleChangePassword(e) {
     setPassword(e.target.value);
@@ -19,22 +15,7 @@ function Register({ isNoticeAlertPopupOpen, setIsNoticeAlertPopupOpen, setNotice
 
   function handleSubmit(e) {
     e.preventDefault();
-    auth
-      .register(password, email)
-      .then(() => navigate('/sign-in'))
-      .then(() => {
-        setNoticeOfRegistration({
-          message: 'Вы успешно зарегистрировались!',
-          link: positiveResponseImg,
-        });
-      })
-      .then(() => setIsNoticeAlertPopupOpen(!isNoticeAlertPopupOpen))
-      .catch((err) => {
-        setNoticeOfRegistration({
-          message: `Ошибка! ${err.message}`,
-          link: negativeResponseImg,
-        });
-      });
+    dataForRegister(password, email);
   }
 
   return (
